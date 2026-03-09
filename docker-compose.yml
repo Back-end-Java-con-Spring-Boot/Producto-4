@@ -24,7 +24,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3307/alquila_db?allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/alquila_db?allowPublicKeyRetrieval=true&useSSL=false
       - SPRING_DATASOURCE_USERNAME=user_app
       - SPRING_DATASOURCE_PASSWORD=user_password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update

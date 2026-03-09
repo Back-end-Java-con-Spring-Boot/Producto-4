@@ -1,3 +1,13 @@
 spring:
   application:
     name: AlquilaTusVehiculos
+  datasource:
+    url: jdbc:mysql://localhost:3307/alquila_db?allowPublicKeyRetrieval=true&useSSL=false
+    username: user_app
+    password: user_password
+  jpa:
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: always

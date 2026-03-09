@@ -16,20 +16,17 @@ INSERT INTO sucursal (id, nombre, direccion, telefono, ciudad)
 VALUES (5, 'Heliopuerto Esperanza', 'Zona Fórum s/n', '930000005', 'Barcelona');
 
 -- CLIENTES
-INSERT INTO clientes (id, nombre, apellidos, email)
-VALUES (1, 'Ana', 'García López', 'ana.garcia@email.com');
+INSERT INTO clientes (id, nombre, apellidos, email) VALUES (1, 'Esteban', 'Dido Buscado', 'esteban.dido@email.com');
 
 INSERT INTO clientes (id, nombre, apellidos, email)
 VALUES (2, 'Elena', 'Nito Del Bosque', 'elena.nito@email.com');
 
-INSERT INTO clientes (id, nombre, apellidos, email)
-VALUES (3, 'Carlos', 'Martínez Ruiz', 'carlos.m@email.com');
+INSERT INTO clientes (id, nombre, apellidos, email) VALUES (3, 'Estela', 'Gartija Veloz', 'estela.gartija@email.com');
 
 INSERT INTO clientes (id, nombre, apellidos, email)
 VALUES (4, 'Armando', 'Bronca Segura', 'armando.lios@email.com');
 
-INSERT INTO clientes (id, nombre, apellidos, email)
-VALUES (5, 'Laura', 'Gómez Díaz', 'laura.gomez@email.com');
+INSERT INTO clientes (id, nombre, apellidos, email) VALUES (5, 'Inés', 'Plícable Ruta', 'ines.plicable@email.com');
 
 INSERT INTO clientes (id, nombre, apellidos, email)
 VALUES (6, 'Pere', 'Gil Fresco', 'pere.gil@email.com');
