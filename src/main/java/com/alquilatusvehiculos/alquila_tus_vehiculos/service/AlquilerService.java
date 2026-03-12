@@ -32,8 +32,8 @@ public class AlquilerService {
                 .orElseThrow(() -> new RuntimeException("No se encontró el alquiler con ID: " + id));
 
         if (alquilerExistente.getEstado() == EstadoAlquiler.ACTIVO) {
-            alquilerExistente.setFecha_fin(alquilerActualizado.getFecha_fin());
-            alquilerExistente.setFecha_inicio(alquilerActualizado.getFecha_inicio());
+            alquilerExistente.setFechaFin(alquilerActualizado.getFechaFin());
+            alquilerExistente.setFechaInicio(alquilerActualizado.getFechaInicio());
             alquilerExistente.setVehiculos(alquilerActualizado.getVehiculos());
             return alquilerRepository.save(alquilerExistente);
         } else {
@@ -64,7 +64,7 @@ public class AlquilerService {
         if (fecha_inicio.isAfter(fecha_fin)) {
             throw new IllegalArgumentException("La fecha de inicio debe ser anterior a la de fin.");
         }
-        return alquilerRepository.findByFecha_inicioBetween(fecha_inicio, fecha_fin);
+        return alquilerRepository.findByFechaInicioBetween(fecha_inicio, fecha_fin);
     }
 
     public List<Alquiler> filtrarPorCliente(String email_cliente) {

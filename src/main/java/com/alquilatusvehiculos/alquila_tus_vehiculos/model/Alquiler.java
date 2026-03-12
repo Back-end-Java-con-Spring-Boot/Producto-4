@@ -37,9 +37,9 @@ public class Alquiler {
     )
     private List<Vehiculo> vehiculos;
 
-    private BigDecimal precio_total;
-    private LocalDateTime fecha_inicio;
-    private LocalDateTime fecha_fin;
+    private BigDecimal precioTotal;
+    private LocalDateTime fechaInicio;
+    private LocalDateTime fechaFin;
 
     @Enumerated(EnumType.STRING)
     private EstadoAlquiler estado = EstadoAlquiler.ACTIVO;
