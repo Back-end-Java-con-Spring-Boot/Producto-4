@@ -41,7 +41,7 @@ public class AlquilerController {
         model.addAttribute("alquiler", new Alquiler());
 
         // model.addAttribute("listaClientes", clienteService.listarTodos());
-        // model.addAttribute("listaVehiculos", vehiculoService.listarTodos());
+        // model.addAttribute("listaVehiculos", vehiculoService.findAll());
         model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
 
         return "alquiler/formulario";
@@ -62,7 +62,7 @@ public class AlquilerController {
         model.addAttribute("alquiler", alquilerService.buscarPorId(id));
 
         // model.addAttribute("listaClientes", clienteService.listarTodos());
-        // model.addAttribute("listaVehiculos", vehiculoService.listarTodos());
+        // model.addAttribute("listaVehiculos", vehiculoService.findAll());
         model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
 
         return "alquiler/formulario";
