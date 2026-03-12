@@ -4,7 +4,7 @@ import com.alquilatusvehiculos.alquila_tus_vehiculos.model.Alquiler;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.service.AlquilerService;
 // import com.alquilatusvehiculos.alquila_tus_vehiculos.service.ClienteService;
 // import com.alquilatusvehiculos.alquila_tus_vehiculos.service.VehiculoService;
-// import com.alquilatusvehiculos.alquila_tus_vehiculos.service.SucursalService;
+import com.alquilatusvehiculos.alquila_tus_vehiculos.service.SucursalService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,17 +17,17 @@ public class AlquilerController {
     private final AlquilerService alquilerService;
     // private final ClienteService clienteService;
     // private final VehiculoService vehiculoService;
-    // private final SucursalService sucursalService;
+    private final SucursalService sucursalService;
 
-    public AlquilerController(AlquilerService alquilerService
+    public AlquilerController(AlquilerService alquilerService , SucursalService sucursalService
                               // , ClienteService clienteService
                               // , VehiculoService vehiculoService
-                              // , SucursalService sucursalService
+
     ) {
         this.alquilerService = alquilerService;
         // this.clienteService = clienteService;
         // this.vehiculoService = vehiculoService;
-        // this.sucursalService = sucursalService;
+        this.sucursalService = sucursalService;
     }
 
     @GetMapping
@@ -42,7 +42,7 @@ public class AlquilerController {
 
         // model.addAttribute("listaClientes", clienteService.listarTodos());
         // model.addAttribute("listaVehiculos", vehiculoService.listarTodos());
-        // model.addAttribute("listaSucursales", sucursalService.listarTodas());
+        model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
 
         return "alquiler/formulario";
     }
@@ -63,7 +63,7 @@ public class AlquilerController {
 
         // model.addAttribute("listaClientes", clienteService.listarTodos());
         // model.addAttribute("listaVehiculos", vehiculoService.listarTodos());
-        // model.addAttribute("listaSucursales", sucursalService.listarTodas());
+        model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
 
         return "alquiler/formulario";
     }
