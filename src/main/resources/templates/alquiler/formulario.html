@@ -50,7 +50,7 @@
                 <label class="form-label">Fecha Inicio</label>
                 <input type="date" class="form-control"
                        th:field="*{fechaInicioDate}"
-                       th:value="${fechaInicioDate != null} ? ${#temporals.format(fechaInicioDate, 'yyyy-MM-dd')} : ${#temporals.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}"
+                       th:attr="min=${fechaMinima}"
                        required>
                 <label class="form-label">Hora Inicio</label>
                 <input type="time" class="form-control mt-1"
@@ -63,7 +63,7 @@
                 <label class="form-label">Fecha Fin</label>
                 <input type="date" class="form-control"
                        th:field="*{fechaFinDate}"
-                       th:value="${fechaFinDate != null} ? ${#temporals.format(fechaFinDate, 'yyyy-MM-dd')} : ${#temporals.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}"
+                       th:attr="min=${fechaMinima}"
                        required>
                 <label class="form-label">Hora Fin</label>
                 <input type="time" class="form-control mt-1"
@@ -72,7 +72,6 @@
                        required>
             </div>
         </div>
-
         <!-- VEHICULOS -->
         <div class="mb-3">
             <label class="form-label">Vehículos</label>

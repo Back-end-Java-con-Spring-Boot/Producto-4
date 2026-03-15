@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -44,9 +45,16 @@ public class AlquilerService {
 
     @Transactional
     public Alquiler crearAlquiler(Alquiler alquiler) {
+        LocalDate hoy = LocalDate.now();
+
+        if (alquiler.getFechaInicio().toLocalDate().isBefore(hoy)) {
+            throw new RuntimeException("La fecha de inicio no puede ser pasada");
+        }
+
         if (alquiler.getFechaInicio().isAfter(alquiler.getFechaFin())) {
             throw new RuntimeException("La fecha de inicio no puede ser mayor que la fecha de fin");
         }
+
         if (alquiler.getVehiculos() == null || alquiler.getVehiculos().isEmpty()) {
             throw new RuntimeException("Debes seleccionar al menos un vehículo");
         }
@@ -54,15 +62,19 @@ public class AlquilerService {
         alquiler.setPrecioTotal(calcularPrecio(alquiler));
         return alquilerRepository.save(alquiler);
     }
-
     @Transactional
     public Alquiler actualizarAlquiler(Long id, Alquiler alquilerActualizado) {
+
+        LocalDate hoy = LocalDate.now();
 
         Alquiler alquilerExistente = alquilerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No se encontró el alquiler con ID: " + id));
 
         if (alquilerExistente.getEstado() != EstadoAlquiler.ACTIVO) {
             throw new RuntimeException("No se puede actualizar una reserva finalizada o cancelada");
+        }
+        if (alquilerActualizado.getFechaInicio().toLocalDate().isBefore(hoy)) {
+            throw new RuntimeException("La fecha de inicio no puede ser pasada");
         }
 
         if (alquilerActualizado.getFechaInicio().isAfter(alquilerActualizado.getFechaFin())) {

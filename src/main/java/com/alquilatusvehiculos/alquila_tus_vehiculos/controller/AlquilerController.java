@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Controller
@@ -48,6 +49,7 @@ public class AlquilerController {
         model.addAttribute("listaVehiculos", vehiculoService.findAll());
         model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
 
+        model.addAttribute("fechaMinima", LocalDateTime.now());
         return "alquiler/formulario";
     }
 
