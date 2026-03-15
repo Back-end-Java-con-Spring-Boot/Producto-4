@@ -7,7 +7,7 @@ VALUES (1, 'A todo gas', 'Calle Gran Vía 12', '910000001', 'Madrid'),
        (5, 'Heliopuerto Esperanza', 'Zona Fórum s/n', '930000005', 'Barcelona');
 
 -- 2. VEHÍCULOS (ACTIVO: Tienes la entidad Vehiculo)
-INSERT IGNORE INTO vehiculos (id, nombre, matricula, plazas, precio_hora, tipo_vehiculo, sucursal_id, imagen_url)
+INSERT IGNORE INTO vehiculos (id, nombre, matricula, plazas, precio_dia, tipo_vehiculo, sucursal_id, imagen_url)
 VALUES (1, 'coche1', '1234ABC',  5, 45.50, 'TERRESTRE', 1, 'https://images.pexels.com/photos/1592384/pexels-photo-1592384.jpeg?_gl=1*1f9hg0w*_ga*MTQwOTk3MzY3OS4xNzczMjM5NDA0*_ga_8JE65Q40S6*czE3NzMyMzk0MDQkbzEkZzEkdDE3NzMyMzk1ODYkajQzJGwwJGgw'),
        (2, 'coche2', '5678DEF', 9, 80.00, 'TERRESTRE', 1, 'https://images.pexels.com/photos/12008571/pexels-photo-12008571.jpeg?_gl=1*uoz85t*_ga*MTQwOTk3MzY3OS4xNzczMjM5NDA0*_ga_8JE65Q40S6*czE3NzMyMzk0MDQkbzEkZzEkdDE3NzMyMzk2OTMkajU5JGwwJGgw'),
        (3, 'coche3', '9012GHI', 5, 55.00, 'TERRESTRE', 2, 'https://images.pexels.com/photos/2071/broken-car-vehicle-vintage.jpg?_gl=1*1usk8au*_ga*MTQwOTk3MzY3OS4xNzczMjM5NDA0*_ga_8JE65Q40S6*czE3NzMyMzk0MDQkbzEkZzEkdDE3NzMyMzk3MjkkajIzJGwwJGgw'),

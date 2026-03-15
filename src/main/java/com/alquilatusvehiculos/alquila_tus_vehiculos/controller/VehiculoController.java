@@ -2,10 +2,7 @@ package com.alquilatusvehiculos.alquila_tus_vehiculos.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alquilatusvehiculos.alquila_tus_vehiculos.model.Vehiculo;
@@ -13,6 +10,8 @@ import com.alquilatusvehiculos.alquila_tus_vehiculos.service.SucursalService;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.service.VehiculoService;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/vehiculos")
@@ -86,4 +85,13 @@ public class VehiculoController {
         }
         return "redirect:/vehiculos";
     }
+
+    @GetMapping("/vehiculos/sucursal/{id}")
+    @ResponseBody
+    public List<Vehiculo> vehiculosPorSucursalJson(@PathVariable Long id){
+        return vehiculoService.findBySucursal(id);
+    }
+
+
+
 }

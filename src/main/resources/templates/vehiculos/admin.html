@@ -36,7 +36,7 @@
                     <th>MATRÍCULA</th>
                     <th>PLAZAS</th>
                     <th>TIPO</th>
-                    <th>PRECIO/H</th>
+                    <th>PRECIO/D</th>
                     <th>SUCURSAL</th>
                     <th class="text-center pe-4">ACCIONES</th>
                 </tr>
@@ -48,7 +48,7 @@
                     <td th:text="${vehiculo.matricula}"></td>
                     <td th:text="${vehiculo.plazas}"></td>
                     <td th:text="${vehiculo.tipoVehiculo.displayName}"></td>
-                    <td th:text="${vehiculo.precioHora}"></td>
+                    <td th:text="${vehiculo.precioDia}"></td>
                     <td th:text="${vehiculo.sucursal != null ? vehiculo.sucursal.nombre : 'Sin asignar'}"></td>
                     <td class="text-center pe-4">
                         <div class="d-flex justify-content-center gap-2">

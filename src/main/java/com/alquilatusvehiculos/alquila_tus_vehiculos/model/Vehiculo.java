@@ -41,8 +41,8 @@ public class Vehiculo {
     @Column(nullable = false)
     private int plazas;
 
-    @Column(name = "precio_hora",nullable = false, precision = 10, scale = 2)
-    private BigDecimal precioHora;
+    @Column(name = "precio_dia",nullable = false, precision = 10, scale = 2)
+    private BigDecimal precioDia;
 
     @Column(name = "tipo_vehiculo", nullable = false)
     @Enumerated(EnumType.STRING)

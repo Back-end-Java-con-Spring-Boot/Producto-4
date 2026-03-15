@@ -46,4 +46,11 @@ public class VehiculoService {
 
         vehiculoRepository.deleteById(id);
     }
+
+    @Transactional
+    public List<Vehiculo> findBySucursal(Long sucursalId) {
+        return vehiculoRepository.findBySucursalId(sucursalId);
+    }
+
+
 }

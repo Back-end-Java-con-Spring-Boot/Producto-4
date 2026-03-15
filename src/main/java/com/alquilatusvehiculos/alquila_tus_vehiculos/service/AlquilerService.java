@@ -25,12 +25,17 @@ public class AlquilerService {
     @Transactional
     public BigDecimal calcularPrecio(Alquiler alquiler){
 
-        long dias = Math.max(1,
-                ChronoUnit.DAYS.between(alquiler.getFechaInicio(), alquiler.getFechaFin())
+        long horas = ChronoUnit.HOURS.between(
+                alquiler.getFechaInicio(),
+                alquiler.getFechaFin()
         );
 
+        long dias = (long) Math.ceil(horas / 24.0);
+
+        dias = Math.max(1, dias);
+
         BigDecimal precioDia = alquiler.getVehiculos().stream()
-                .map(v -> v.getPrecioHora().multiply(BigDecimal.valueOf(24)))
+                .map(v -> v.getPrecioDia())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return precioDia.multiply(BigDecimal.valueOf(dias));
