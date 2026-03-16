@@ -101,11 +101,17 @@ public class ClienteController {
         return "redirect:/clientes";
     }
 
-    // ── DELETE ─────────────────────────────────────────────────────
+// ── DELETE ─────────────────────────────────────────────────────
     @PostMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id, RedirectAttributes redirectAttrs) {
-        clienteService.deleteById(id);
-        redirectAttrs.addFlashAttribute("mensaje", "Cliente eliminado correctamente");
+        try {
+            clienteService.deleteById(id);
+            redirectAttrs.addFlashAttribute("mensaje", "Cliente eliminado correctamente");
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            redirectAttrs.addFlashAttribute("error", "No se puede eliminar el cliente: tiene alquileres activos asociados.");
+        } catch (Exception e) {
+            redirectAttrs.addFlashAttribute("error", "Ocurrió un error al intentar eliminar el cliente.");
+        }
         return "redirect:/clientes";
     }
 
