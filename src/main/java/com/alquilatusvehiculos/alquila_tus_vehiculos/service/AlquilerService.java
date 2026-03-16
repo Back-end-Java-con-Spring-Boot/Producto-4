@@ -1,6 +1,7 @@
 package com.alquilatusvehiculos.alquila_tus_vehiculos.service;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.model.Alquiler;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.model.EstadoAlquiler;
+import com.alquilatusvehiculos.alquila_tus_vehiculos.model.Vehiculo;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.repository.AlquilerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +27,22 @@ public class AlquilerService {
     @Transactional
     public BigDecimal calcularPrecio(Alquiler alquiler){
 
-        long horas = ChronoUnit.HOURS.between(
-                alquiler.getFechaInicio(),
-                alquiler.getFechaFin()
-        );
+        LocalDateTime inicio = alquiler.getFechaInicio();
+        LocalDateTime fin = alquiler.getFechaFin();
 
-        long dias = (long) Math.ceil(horas / 24.0);
+        long dias = ChronoUnit.DAYS.between(inicio.toLocalDate(), fin.toLocalDate());
+
+        if (fin.toLocalTime().isAfter(inicio.toLocalTime())) {
+            dias++;
+        }
 
         dias = Math.max(1, dias);
 
-        BigDecimal precioDia = alquiler.getVehiculos().stream()
-                .map(v -> v.getPrecioDia())
+        BigDecimal precioTotalPorDia = alquiler.getVehiculos().stream()
+                .map(Vehiculo::getPrecioDia)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        return precioDia.multiply(BigDecimal.valueOf(dias));
+        return precioTotalPorDia.multiply(BigDecimal.valueOf(dias));
     }
 
 
