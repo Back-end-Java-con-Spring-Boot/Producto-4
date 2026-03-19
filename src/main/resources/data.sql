@@ -17,19 +17,28 @@ VALUES (1, 'Quita puntos', '1234ABC',  5, 45.50, 'TERRESTRE', 1, 'https://images
        (7, 'Pez Volador', 'EC-ABC',4, 1200.00, 'AEREO', 3, 'https://images.pexels.com/photos/78786/fighter-jet-jet-lockheed-martin-f-35-lightning-ii-2011-78786.jpeg?_gl=1*1nwtocc*_ga*MTQwOTk3MzY3OS4xNzczMjM5NDA0*_ga_8JE65Q40S6*czE3NzMyMzk0MDQkbzEkZzEkdDE3NzMyMzk5MTYkajI1JGwwJGgw'),
        (8, 'Libelula Mareada', 'EC-XYZ', 6, 2500.00, 'AEREO', 5, 'https://images.pexels.com/photos/1486842/pexels-photo-1486842.jpeg?_gl=1*1cb3fjp*_ga*MTQwOTk3MzY3OS4xNzczMjM5NDA0*_ga_8JE65Q40S6*czE3NzMyMzk0MDQkbzEkZzEkdDE3NzMyMzk4ODYkajU1JGwwJGgw');
 
-/* BLOQUE COMENTADO:
-   Las siguientes tablas darían error porque aún no tienes las clases Java (Entities)
-   de Clientes ni Alquileres. Descoméntalo cuando las crees.
-*/
+-- USUARIOS
+       /**
+       La contraseña de admin es admin123 y de usuarios user123
+        */
+INSERT IGNORE INTO usuarios (id, username, password, rol, activo, fecha_registro)
+VALUES (1, 'administrador', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.jqnmqbe', 'ADMIN', true, NOW()),
+       (2, 'Estebandido', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW()),
+       (3, 'Elenanito', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW()),
+       (4, 'Estelagartija', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW()),
+       (5, 'Armandobronca', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW()),
+       (6, 'Inesplicable', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW()),
+       (7, 'Peregil', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW());
+
 
 -- 3. CLIENTES
- INSERT IGNORE INTO clientes (id, nombre, apellidos, email)
- VALUES (1, 'Esteban', 'Dido Buscado', 'esteban.dido@email.com'),
-        (2, 'Elena', 'Nito Del Bosque', 'elena.nito@email.com'),
-        (3, 'Estela', 'Gartija Veloz', 'estela.gartija@email.com'),
-        (4, 'Armando', 'Bronca Segura', 'armando.lios@email.com'),
-        (5, 'Inés', 'Plícable Ruta', 'ines.plicable@email.com'),
-        (6, 'Pere', 'Gil Fresco', 'pere.gil@email.com');
+ INSERT IGNORE INTO clientes (id, usuario_id, nombre, apellidos, email)
+ VALUES (1, 2, 'Esteban', 'Dido Buscado', 'esteban.dido@email.com'),
+        (2, 3, 'Elena', 'Nito Del Bosque', 'elena.nito@email.com'),
+        (3, 4, 'Estela', 'Gartija Veloz', 'estela.gartija@email.com'),
+        (4, 5, 'Armando', 'Bronca Segura', 'armando.lios@email.com'),
+        (5, 6, 'Inés', 'Plícable Ruta', 'ines.plicable@email.com'),
+        (6, 7, 'Pere', 'Gil Fresco', 'pere.gil@email.com');
 
 -- Asegúrate de que los nombres de las columnas coincidan con lo que vimos en el DESCRIBE
 INSERT IGNORE INTO alquileres (id, id_cliente, id_sucursal, precio_total, fecha_inicio, fecha_fin, estado)
@@ -40,3 +49,5 @@ VALUES (1, 1, 1, 136.50, '2024-03-15 10:00:00', '2024-03-18 10:00:00', 'COMPLETA
 -- 5. TABLA INTERMEDIA
 INSERT IGNORE INTO alquiler_vehiculos (alquiler_id, vehiculo_id)
 VALUES (1, 1), (1, 2), (2, 3), (3, 6);
+
+
