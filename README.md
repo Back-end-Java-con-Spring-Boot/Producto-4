@@ -1,6 +1,6 @@
-# Producto-2: Alquila Tus Vehiculos
-Proyecto back-end desarrollado con Spring Boot para la gestión de alquiler de vehículos. En este Producto 2, la aplicación ha evolucionado para incluir vistas dinámicas con Thymeleaf, persistencia de datos y una base de datos MySQL, todo orquestado mediante Docker Compose.
-
+# Producto-3: Alquila Tus Vehiculos
+Proyecto back-end desarrollado con Spring Boot para la gestión de alquiler de vehículos. En este Producto 3, modificamos nuestra base de datos para la gestión con usuarios
+y utilizamos, configuramos e implementamos Spring Security para poder gestionar los diferentes usuarios.
 ## Requisitos Previos
 * **Docker** y **Docker Compose** instalados en tu sistema.
 * Puerto `8080` libre para la aplicación web.
