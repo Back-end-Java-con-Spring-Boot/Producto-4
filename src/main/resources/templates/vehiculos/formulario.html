@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{layout :: head}">
     <title>Sleipnir - Formulario de Vehículo</title>
 </head>
@@ -18,8 +20,12 @@
 
     <div class="card border-0 shadow-lg rounded-4 text-dark">
         <div class="card-body p-5">
-            <form method="post" th:object="${vehiculo}" th:action="${vehiculo.id == null} ? @{/vehiculos/nuevo} : @{/vehiculos/editar/{id}(id=${vehiculo.id})}">
+            <form method="post" th:object="${vehiculo}"
+                  th:action="${vehiculo.id == null}
+                      ? @{/admin/vehiculos/nuevo}
+                      : @{/admin/vehiculos/editar/{id}(id=${vehiculo.id})}">
                 <input type="hidden" th:field="*{id}">
+
                 <div class="mb-3">
                     <label class="form-label fw-bold">Nombre</label>
                     <input type="text" class="form-control rounded-3" th:field="*{nombre}" required>
@@ -34,25 +40,28 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tipo de Vehículo</label>
-                    <select  class="form-select" th:field="*{tipoVehiculo}">
-                        <option th:value="${tipo}" th:each="tipo: ${T(com.alquilatusvehiculos.alquila_tus_vehiculos.model.TipoVehiculo).values()}"
-                        th:text="${tipo.displayName}"></option>
+                    <select class="form-select" th:field="*{tipoVehiculo}">
+                        <option th:value="${tipo}"
+                                th:each="tipo: ${T(com.alquilatusvehiculos.alquila_tus_vehiculos.model.TipoVehiculo).values()}"
+                                th:text="${tipo.displayName}"></option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold">Precio/Dia</label>
-                    <input type="number" min="0" step="0.01" class="form-control rounded-3" th:field="*{precioDia}" required>
+                    <input type="number" min="0" step="0.01" class="form-control rounded-3"
+                           th:field="*{precioDia}" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold">Sucursal</label>
-                    <select  class="form-select" th:field="*{sucursal}">
-                        <option th:each="suc : ${listaSucursales}" th:value="${suc.id}" th:text="${suc.nombre}"></option>
+                    <select class="form-select" th:field="*{sucursal}">
+                        <option th:each="suc : ${listaSucursales}"
+                                th:value="${suc.id}"
+                                th:text="${suc.nombre}"></option>
                     </select>
                 </div>
 
                 <button type="submit" class="btn btn-success rounded-3">Guardar</button>
-                <a th:href="@{/vehiculos}" class="btn btn-danger rounded-3">Cancelar</a>
-
+                <a th:href="@{/admin/vehiculos}" class="btn btn-danger rounded-3">Cancelar</a>
             </form>
         </div>
     </div>
