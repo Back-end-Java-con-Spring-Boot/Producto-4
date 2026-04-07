@@ -1,24 +1,25 @@
 package com.alquilatusvehiculos.alquila_tus_vehiculos.controller;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alquilatusvehiculos.alquila_tus_vehiculos.model.Alquiler;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.model.EstadoAlquiler;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.model.Vehiculo;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.service.AlquilerService;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.service.ClienteService;
-import com.alquilatusvehiculos.alquila_tus_vehiculos.service.VehiculoService;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.service.SucursalService;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import com.alquilatusvehiculos.alquila_tus_vehiculos.service.VehiculoService;
 
 @Controller
-@RequestMapping("/alquiler")
 public class AlquilerController {
 
     private final AlquilerService alquilerService;
@@ -26,33 +27,34 @@ public class AlquilerController {
     private final VehiculoService vehiculoService;
     private final SucursalService sucursalService;
 
-    public AlquilerController(AlquilerService alquilerService , SucursalService sucursalService
-                              , ClienteService clienteService
-                              , VehiculoService vehiculoService
-
-    ) {
-        this.alquilerService = alquilerService;
-        this.clienteService = clienteService;
-        this.vehiculoService = vehiculoService;
-        this.sucursalService = sucursalService;
+    public AlquilerController(AlquilerService alquilerService, SucursalService sucursalService,
+                              ClienteService clienteService, VehiculoService vehiculoService) {
+        this.alquilerService  = alquilerService;
+        this.clienteService   = clienteService;
+        this.vehiculoService  = vehiculoService;
+        this.sucursalService  = sucursalService;
     }
 
-    @GetMapping
-    public String listarTodo(Model model){
+    // ══════════════════════════════════════════════════════════════
+    // RUTAS /admin — solo ADMIN
+    // ══════════════════════════════════════════════════════════════
+
+    @GetMapping("/admin/alquiler")
+    public String listarTodo(Model model) {
         model.addAttribute("alquiler", alquilerService.listarTodosAlquileres());
         return "alquiler/lista";
     }
 
-    @GetMapping("/crear")
-    public String formularioAlquiler(@ModelAttribute Alquiler alquiler, @RequestParam(required = false) Long vehiculoId, Model model){
-
+    @GetMapping("/admin/alquiler/crear")
+    public String formularioAlquiler(@ModelAttribute Alquiler alquiler,
+                                     @RequestParam(required = false) Long vehiculoId,
+                                     Model model) {
         if (alquiler.getVehiculos() == null) {
             alquiler.setVehiculos(new ArrayList<>());
         }
 
-        //Codigo añadido para mostrar el vehículo en el formulario al hacer click en reservas Alquilar Vehiculo y en el formulario del inicio
-        if(vehiculoId != null){
-            try{
+        if (vehiculoId != null) {
+            try {
                 Vehiculo vehiculoSeleccionado = vehiculoService.findById(vehiculoId);
                 alquiler.getVehiculos().add(vehiculoSeleccionado);
                 if (alquiler.getSucursal() == null || alquiler.getSucursal().getId() == null) {
@@ -64,55 +66,46 @@ public class AlquilerController {
         }
 
         model.addAttribute("alquiler", alquiler);
-
         model.addAttribute("listaClientes", clienteService.findAll());
         model.addAttribute("listaVehiculos", vehiculoService.findAll());
         model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
-
         model.addAttribute("fechaMinima", LocalDateTime.now());
         return "alquiler/formulario";
     }
 
-    @PostMapping("/guardar")
+    @PostMapping("/admin/alquiler/guardar")
     public String guardar(@ModelAttribute Alquiler alquiler, Model model) {
         try {
             alquiler.setFechaInicio(
-                    LocalDateTime.of(alquiler.getFechaInicioDate(), alquiler.getFechaInicioTime())
-            );
+                    LocalDateTime.of(alquiler.getFechaInicioDate(), alquiler.getFechaInicioTime()));
             alquiler.setFechaFin(
-                    LocalDateTime.of(alquiler.getFechaFinDate(), alquiler.getFechaFinTime())
-            );
+                    LocalDateTime.of(alquiler.getFechaFinDate(), alquiler.getFechaFinTime()));
 
             if (alquiler.getId() != null) {
                 alquilerService.actualizarAlquiler(alquiler.getId(), alquiler);
             } else {
                 alquilerService.crearAlquiler(alquiler);
             }
-
-            return "redirect:/alquiler";
+            return "redirect:/admin/alquiler";
 
         } catch (RuntimeException e) {
-
             model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("alquiler", alquiler);
             model.addAttribute("listaClientes", clienteService.findAll());
             model.addAttribute("listaVehiculos", vehiculoService.findAll());
             model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
-
             return "alquiler/formulario";
         }
     }
 
-    @GetMapping("/editar/{id}")
+    @GetMapping("/admin/alquiler/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
         try {
             Alquiler alquiler = alquilerService.buscarPorId(id);
 
             if (alquiler.getEstado() != EstadoAlquiler.ACTIVO) {
                 model.addAttribute("errorMessage", "No se puede editar una reserva finalizada o cancelada");
-
                 model.addAttribute("alquiler", alquilerService.listarTodosAlquileres());
-
                 return "alquiler/lista";
             }
 
@@ -120,28 +113,73 @@ public class AlquilerController {
             model.addAttribute("listaClientes", clienteService.findAll());
             model.addAttribute("listaVehiculos", vehiculoService.findAll());
             model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
-
             return "alquiler/formulario";
 
         } catch (RuntimeException e) {
             model.addAttribute("errorMessage", e.getMessage());
-
             model.addAttribute("alquiler", alquilerService.listarTodosAlquileres());
-
             return "alquiler/lista";
         }
     }
 
-    @GetMapping("/cancelar/{id}")
-    public String cancelar(@PathVariable Long id, Model model){
-        try{
-        alquilerService.cancelarAlquiler(id);
+    @GetMapping("/admin/alquiler/cancelar/{id}")
+    public String cancelar(@PathVariable Long id, Model model) {
+        try {
+            alquilerService.cancelarAlquiler(id);
         } catch (RuntimeException e) {
             model.addAttribute("errorMessage", e.getMessage());
-
             model.addAttribute("alquiler", alquilerService.listarTodosAlquileres());
             return "alquiler/lista";
         }
-        return "redirect:/alquiler";
+        return "redirect:/admin/alquiler";
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // RUTAS /user — USER + ADMIN (ver alquileres propios)
+    // ══════════════════════════════════════════════════════════════
+
+    @GetMapping("/user/reservar")
+    public String reservarUser(@ModelAttribute Alquiler alquiler,
+                               @RequestParam(required = false) Long vehiculoId,
+                               Model model) {
+        if (alquiler.getVehiculos() == null) {
+            alquiler.setVehiculos(new ArrayList<>());
+        }
+        if (vehiculoId != null) {
+            try {
+                Vehiculo v = vehiculoService.findById(vehiculoId);
+                alquiler.getVehiculos().add(v);
+                if (alquiler.getSucursal() == null || alquiler.getSucursal().getId() == null) {
+                    alquiler.setSucursal(v.getSucursal());
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Vehículo no encontrado: " + e.getMessage());
+            }
+        }
+        model.addAttribute("alquiler", alquiler);
+        model.addAttribute("listaClientes", clienteService.findAll());
+        model.addAttribute("listaVehiculos", vehiculoService.findAll());
+        model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
+        model.addAttribute("fechaMinima", LocalDateTime.now());
+        return "alquiler/formulario";
+    }
+
+    @PostMapping("/user/reservar/guardar")
+    public String guardarUser(@ModelAttribute Alquiler alquiler, Model model) {
+        try {
+            alquiler.setFechaInicio(
+                    LocalDateTime.of(alquiler.getFechaInicioDate(), alquiler.getFechaInicioTime()));
+            alquiler.setFechaFin(
+                    LocalDateTime.of(alquiler.getFechaFinDate(), alquiler.getFechaFinTime()));
+            alquilerService.crearAlquiler(alquiler);
+            return "redirect:/admin/alquiler";
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("alquiler", alquiler);
+            model.addAttribute("listaClientes", clienteService.findAll());
+            model.addAttribute("listaVehiculos", vehiculoService.findAll());
+            model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
+            return "alquiler/formulario";
+        }
     }
 }

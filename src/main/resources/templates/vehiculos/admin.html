@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{layout :: head}">
     <title>Sleipnir - Gestión de Vehículos</title>
 </head>
@@ -20,7 +22,10 @@
                 <span class="input-group-text"><i class="bi bi-search text-muted"></i></span>
                 <input type="text" id="searchInput" class="form-control" placeholder="Buscar Vehículos...">
             </div>
-            <a th:href="@{/vehiculos/nuevo}" class="btn btn-primary shadow-sm px-4 rounded-pill fw-bold">
+            <!-- Solo ADMIN puede añadir vehículos -->
+            <a sec:authorize="hasRole('ADMIN')"
+               th:href="@{/admin/vehiculos/nuevo}"
+               class="btn btn-primary shadow-sm px-4 rounded-pill fw-bold">
                 <i class="bi bi-plus-lg me-2"></i> Añadir Vehículo
             </a>
         </div>
@@ -38,7 +43,8 @@
                     <th>TIPO</th>
                     <th>PRECIO/D</th>
                     <th>SUCURSAL</th>
-                    <th class="text-center pe-4">ACCIONES</th>
+                    <!-- Acciones solo para ADMIN -->
+                    <th sec:authorize="hasRole('ADMIN')" class="text-center pe-4">ACCIONES</th>
                 </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -50,12 +56,17 @@
                     <td th:text="${vehiculo.tipoVehiculo.displayName}"></td>
                     <td th:text="${vehiculo.precioDia}"></td>
                     <td th:text="${vehiculo.sucursal != null ? vehiculo.sucursal.nombre : 'Sin asignar'}"></td>
-                    <td class="text-center pe-4">
+                    <!-- Botones editar/eliminar solo para ADMIN -->
+                    <td sec:authorize="hasRole('ADMIN')" class="text-center pe-4">
                         <div class="d-flex justify-content-center gap-2">
-                            <a th:href="@{/vehiculos/editar/{id}(id=${vehiculo.id})}" class="btn btn-sm text-primary border-0" title="Editar">
+                            <a th:href="@{/admin/vehiculos/editar/{id}(id=${vehiculo.id})}"
+                               class="btn btn-sm text-primary border-0" title="Editar">
                                 <i class="bi bi-pencil-square fs-5"></i>
                             </a>
-                            <a th:href="@{/vehiculos/eliminar/{id}(id=${vehiculo.id})}" class="btn btn-sm text-danger border-0" onclick="return confirm('¿Estás seguro de eliminar este vehículo?')" title="Eliminar">
+                            <a th:href="@{/admin/vehiculos/eliminar/{id}(id=${vehiculo.id})}"
+                               class="btn btn-sm text-danger border-0"
+                               onclick="return confirm('¿Estás seguro de eliminar este vehículo?')"
+                               title="Eliminar">
                                 <i class="bi bi-trash-fill fs-5"></i>
                             </a>
                         </div>
@@ -71,6 +82,5 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script th:src="@{/js/buscador.js}"></script>
-
 </body>
 </html>

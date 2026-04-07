@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{layout :: head}">
     <title>Sleipnir - Gestión de Clientes</title>
@@ -22,7 +24,10 @@
                     <span class="input-group-text"><i class="bi bi-search text-muted"></i></span>
                     <input type="text" id="searchInput" class="form-control" placeholder="Buscar clientes...">
                 </div>
-                <a th:href="@{/clientes/nuevo}" class="btn btn-primary shadow-sm px-4 rounded-pill fw-bold">
+                <!-- Solo ADMIN ve el botón de añadir -->
+                <a sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/admin/clientes/nuevo}"
+                   class="btn btn-primary shadow-sm px-4 rounded-pill fw-bold">
                     <i class="bi bi-person-plus-fill me-2"></i> Añadir Cliente
                 </a>
             </div>
@@ -37,7 +42,8 @@
                             <th>NOMBRE</th>
                             <th>APELLIDOS</th>
                             <th>EMAIL</th>
-                            <th class="text-center pe-4">ACCIONES</th>
+                            <!-- Columna acciones solo para ADMIN -->
+                            <th sec:authorize="hasRole('ADMIN')" class="text-center pe-4">ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -49,17 +55,18 @@
                             <td th:text="${cliente.nombre}"></td>
                             <td th:text="${cliente.apellidos}"></td>
                             <td th:text="${cliente.email}"></td>
-                            <td class="text-center pe-4">
+                            <!-- Acciones solo para ADMIN -->
+                            <td sec:authorize="hasRole('ADMIN')" class="text-center pe-4">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a th:href="@{/clientes/{id}(id=${cliente.id})}"
+                                    <a th:href="@{/user/clientes/{id}(id=${cliente.id})}"
                                         class="btn btn-sm text-info border-0" title="Ver Detalle">
                                         <i class="bi bi-eye-fill fs-5"></i>
                                     </a>
-                                    <a th:href="@{/clientes/editar/{id}(id=${cliente.id})}"
+                                    <a th:href="@{/admin/clientes/editar/{id}(id=${cliente.id})}"
                                         class="btn btn-sm text-primary border-0" title="Editar">
                                         <i class="bi bi-pencil-square fs-5"></i>
                                     </a>
-                                    <form th:action="@{/clientes/eliminar/{id}(id=${cliente.id})}" method="post"
+                                    <form th:action="@{/admin/clientes/eliminar/{id}(id=${cliente.id})}" method="post"
                                         class="d-inline"
                                         onsubmit="return confirm('¿Estás seguro de eliminar este cliente?')">
                                         <button type="submit" class="btn btn-sm text-danger border-0">
