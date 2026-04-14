@@ -6,12 +6,12 @@
 <header th:replace="~{layout :: header}"></header>
 
 <main class="container flex-grow-1 d-flex align-items-center justify-content-center" style="margin-top: 100px; margin-bottom: 50px;">
-    <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="max-width: 600px; width: 100%;">
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="max-width: 650px; width: 100%;">
 
         <div class="card-header text-white text-center py-4 border-0" style="background-color: #1a1f3d;">
             <i class="bi bi-person-plus-fill fs-1"></i>
             <h3 class="fw-bold m-0">Únete a Sleipnir</h3>
-            <p class="small opacity-75">Crea tu cuenta para empezar a alquilar</p>
+            <p class="small opacity-75">Crea tu cuenta de acceso y perfil de cliente</p>
         </div>
 
         <div class="card-body p-4 p-md-5">
@@ -21,6 +21,7 @@
 
             <form th:action="@{/auth/registro}" th:object="${usuarioDto}" method="post">
 
+                <h6 class="text-uppercase fw-bold text-muted mb-3 small" style="letter-spacing: 1px;">Datos Personales</h6>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold small text-muted">Nombre</label>
@@ -32,19 +33,31 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label fw-bold small text-muted">Correo Electrónico</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope"></i></span>
-                        <input type="email" th:field="*{email}" class="form-control border-start-0 bg-light rounded-end-3" placeholder="nombre@ejemplo.com" required>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold small text-muted">Correo Electrónico</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope"></i></span>
+                            <input type="email" th:field="*{email}" class="form-control border-start-0 bg-light rounded-end-3" placeholder="email@ejemplo.com" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold small text-muted">Teléfono</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-telephone"></i></span>
+                            <input type="text" th:field="*{telefono}" class="form-control border-start-0 bg-light rounded-end-3" placeholder="600000000" required>
+                        </div>
                     </div>
                 </div>
 
+                <hr class="my-4">
+                <h6 class="text-uppercase fw-bold text-muted mb-3 small" style="letter-spacing: 1px;">Credenciales de Acceso</h6>
+
                 <div class="mb-3">
-                    <label class="form-label fw-bold small text-muted">Teléfono de contacto</label>
+                    <label class="form-label fw-bold small text-muted">Nombre de Usuario (Login)</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-telephone"></i></span>
-                        <input type="text" th:field="*{telefono}" class="form-control border-start-0 bg-light rounded-end-3" placeholder="600000000" required>
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-person-badge"></i></span>
+                        <input type="text" th:field="*{username}" class="form-control border-start-0 bg-light rounded-end-3" placeholder="Elige tu apodo de acceso" required>
                     </div>
                 </div>
 
@@ -54,12 +67,12 @@
                         <input type="password" th:field="*{password}" class="form-control bg-light rounded-3" required>
                     </div>
                     <div class="col-md-6 mb-4">
-                        <label class="form-label fw-bold small text-muted">Repetir Contraseña</label>
+                        <label class="form-label fw-bold small text-muted">Confirmar Contraseña</label>
                         <input type="password" th:field="*{confirmarPassword}" class="form-control bg-light rounded-3" required>
                     </div>
                 </div>
 
-                <div class="d-grid shadow-sm">
+                <div class="d-grid shadow-sm mt-3">
                     <button type="submit" class="btn btn-lg rounded-pill fw-bold py-3 text-white" style="background-color: #1a1f3d; border: none;">
                         <i class="bi bi-check-circle-fill me-2"></i> Finalizar Registro
                     </button>

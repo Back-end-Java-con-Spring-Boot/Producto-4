@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/auth") // <-- Todo lo que hay aquí empieza por /auth
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -19,7 +19,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        return "auth/login"; // Busca templates/auth/login.html
+        return "auth/login";
     }
 
     @GetMapping("/registro")
@@ -30,12 +30,10 @@ public class AuthController {
 
     @PostMapping("/registro")
     public String registrarUsuario (@ModelAttribute("usuarioDto") UsuarioRegistroDTO registroDTO, Model model) {
-
         if (!registroDTO.getPassword().equals(registroDTO.getConfirmarPassword())) {
             model.addAttribute("error", "Las contraseñas no coinciden");
             return "auth/registro";
         }
-
         usuarioService.registrar(registroDTO);
         return "redirect:/auth/login?exito";
     }

@@ -9,6 +9,7 @@ import com.alquilatusvehiculos.alquila_tus_vehiculos.repository.UsuarioRepositor
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,23 +19,22 @@ public class UsuarioService {
     private final ClienteRepository clienteRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    @Transactional
     public void registrar(UsuarioRegistroDTO dto) {
 
         Usuario usuario = new Usuario();
-        usuario.setUsername(dto.getEmail());
+        usuario.setUsername(dto.getUsername());
         usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
         usuario.setRol(RolUsuario.USER);
-
-        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+        usuario.setActivo(true);
+        usuarioRepository.save(usuario);
 
         Cliente cliente = new Cliente();
         cliente.setNombre(dto.getNombre());
         cliente.setApellidos(dto.getApellidos());
         cliente.setEmail(dto.getEmail());
         cliente.setTelefono(dto.getTelefono());
-
-        cliente.setUsuario(usuarioGuardado);
-
+        cliente.setUsuario(usuario);
         clienteRepository.save(cliente);
     }
 }

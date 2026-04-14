@@ -23,29 +23,24 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(request -> request
-                        // 1. Rutas protegidas para ADMIN
                         .requestMatchers("/vehiculos/**", "/sucursales/**", "/alquiler/**", "/clientes/**")
                         .hasRole("ADMIN")
-
-                        // 2. Rutas públicas (Añadimos /auth/** para registro y login)
                         .requestMatchers("/", "/reservar", "/css/**", "/js/**", "/auth/**", "/alquiler/crear/**", "/clientes/nuevo/**")
                         .permitAll()
-
-                        // 3. Cualquier otra ruta requiere estar logueado
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/auth/login") // <--- ¡CORREGIDO! Coincide con AuthController
-                        .loginProcessingUrl("/auth/login") // Donde Spring escucha el POST del formulario
-                        .defaultSuccessUrl("/", true) // Dónde va el usuario al entrar bien
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/login")
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/auth/login?logout") // Al salir, vuelve al login
+                        .logoutSuccessUrl("/auth/login?logout")
                         .permitAll()
                 )
-                .csrf(csrf -> csrf.disable()); // Mantener deshabilitado para facilitar pruebas en local
+                .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
