@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head}"></head>
+
+<body class="d-flex flex-column min-vh-100 bg-light">
+<header th:replace="~{layout :: header}"></header>
+
+<main class="container flex-grow-1 d-flex align-items-center justify-content-center" style="margin-top: 100px; margin-bottom: 50px;">
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="max-width: 450px; width: 100%;">
+
+        <div class="card-header text-white text-center py-4 border-0" style="background-color: #1a1f3d;">
+            <i class="bi bi-person-circle fs-1"></i>
+            <h3 class="fw-bold m-0">Bienvenido</h3>
+            <p class="small opacity-75">Accede a tu panel de Sleipnir</p>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+            <div th:if="${param.error}" class="alert alert-danger py-2 small border-0 shadow-sm mb-3">
+                <i class="bi bi-exclamation-circle-fill me-2"></i> Credenciales incorrectas.
+            </div>
+            <div th:if="${param.logout}" class="alert alert-info py-2 small border-0 shadow-sm mb-3">
+                <i class="bi bi-info-circle-fill me-2"></i> Sesión cerrada correctamente.
+            </div>
+            <div th:if="${param.exito}" class="alert alert-success py-2 small border-0 shadow-sm mb-3">
+                <i class="bi bi-check-circle-fill me-2"></i> ¡Registro completado con éxito!
+            </div>
+
+            <form th:action="@{/auth/login}" method="post">
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-muted">Correo Electrónico</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope"></i></span>
+                        <input type="text" name="username" class="form-control border-start-0 bg-light rounded-end-3" placeholder="nombre@ejemplo.com" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-muted">Contraseña</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock"></i></span>
+                        <input type="password" name="password" class="form-control border-start-0 bg-light rounded-end-3" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <div class="d-grid shadow-sm">
+                    <button type="submit" class="btn btn-lg rounded-pill fw-bold py-3 text-white" style="background-color: #1a1f3d; border: none;">
+                        Iniciar Sesión
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-footer bg-white text-center py-4 border-0">
+            <span class="text-muted small">¿Nuevo en Sleipnir?</span>
+            <a th:href="@{/auth/registro}" class="fw-bold small text-decoration-none ms-1" style="color: #1a1f3d;">Crea una cuenta ahora</a>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>
