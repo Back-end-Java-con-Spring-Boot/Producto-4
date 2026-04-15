@@ -29,16 +29,16 @@
         <li class="nav-item"><a class="nav-link fw-bold" th:href="@{/reservar}">Reserva Ahora</a></li>
 
         <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a class="nav-link fw-bold text-warning" th:href="@{/vehiculos}">Vehículos</a>
+          <a class="nav-link fw-bold text-warning" th:href="@{/admin/vehiculos}">Vehículos</a>
         </li>
         <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a class="nav-link fw-bold text-warning" th:href="@{/sucursales}">Sucursales</a>
+          <a class="nav-link fw-bold text-warning" th:href="@{/admin/sucursales}">Sucursales</a>
         </li>
         <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a class="nav-link fw-bold text-warning" th:href="@{/alquiler}">Alquiler</a>
+          <a class="nav-link fw-bold text-warning" th:href="@{/admin/alquiler}">Alquiler</a>
         </li>
         <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a class="nav-link fw-bold text-warning" th:href="@{/clientes}">Clientes</a>
+          <a class="nav-link fw-bold text-warning" th:href="@{/admin/clientes}">Clientes</a>
         </li>
       </ul>
     </div>
