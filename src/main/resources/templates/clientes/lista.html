@@ -24,12 +24,12 @@
                     <span class="input-group-text"><i class="bi bi-search text-muted"></i></span>
                     <input type="text" id="searchInput" class="form-control" placeholder="Buscar clientes...">
                 </div>
-                <!-- Solo ADMIN ve el botón de añadir // SE COMENTA AHORA TODOS LOS CLIENTES SE CREAN DESDE EL FORMULARIO DE REGISTRO-->
-<!--                <a sec:authorize="hasRole('ADMIN')"-->
-<!--                   th:href="@{/admin/clientes/nuevo}"-->
-<!--                   class="btn btn-primary shadow-sm px-4 rounded-pill fw-bold">-->
-<!--                    <i class="bi bi-person-plus-fill me-2"></i> Añadir Cliente-->
-<!--                </a>-->
+                <!-- Solo ADMIN ve el botón de añadir //-->
+                <a sec:authorize="hasRole('ADMIN')"
+                   th:href="@{/admin/clientes/nuevo}"
+                   class="btn btn-primary shadow-sm px-4 rounded-pill fw-bold">
+                    <i class="bi bi-person-plus-fill me-2"></i> Añadir Cliente
+                </a>
             </div>
         </div>
 
@@ -58,7 +58,7 @@
                             <!-- Acciones solo para ADMIN -->
                             <td sec:authorize="hasRole('ADMIN')" class="text-center pe-4">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a th:href="@{/user/clientes/{id}(id=${cliente.id})}"
+                                    <a th:href="@{/admin/clientes/{id}(id=${cliente.id})}"
                                         class="btn btn-sm text-info border-0" title="Ver Detalle">
                                         <i class="bi bi-eye-fill fs-5"></i>
                                     </a>
