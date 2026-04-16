@@ -33,35 +33,36 @@ public class ClienteController {
         model.addAttribute("listaClientes", clienteService.findAll());
         return "clientes/lista";
     }
+    // AHORA LOS CLIENTES SE CREAN DESDE EL FORMULARIO DE REGISTRO.
 
-    // CREATE - Mostrar formulario nuevo (ADMIN)
-    @GetMapping("/admin/clientes/nuevo")
-    public String mostrarFormularioNuevo(Model model) {
-        model.addAttribute("cliente", new Cliente());
-        model.addAttribute("titulo", "Nuevo Cliente");
-        return "clientes/formulario";
-    }
-
-    // CREATE - Guardar nuevo cliente (ADMIN)
-    @PostMapping("/admin/clientes/nuevo")
-    public String guardarNuevo(@Valid @ModelAttribute("cliente") Cliente cliente,
-                               BindingResult result,
-                               Model model,
-                               RedirectAttributes redirectAttrs) {
-
-        if (clienteService.emailYaExiste(cliente.getEmail(), null)) {
-            result.rejectValue("email", "error.cliente", "Este email ya está registrado");
-        }
-
-        if (result.hasErrors()) {
-            model.addAttribute("titulo", "Nuevo Cliente");
-            return "clientes/formulario";
-        }
-
-        clienteService.save(cliente);
-        redirectAttrs.addFlashAttribute("mensajeExito", "Cliente creado correctamente");
-        return "redirect:/admin/clientes";
-    }
+   // CREATE - Mostrar formulario nuevo (ADMIN)
+//    @GetMapping("/admin/clientes/nuevo")
+//    public String mostrarFormularioNuevo(Model model) {
+//        model.addAttribute("cliente", new Cliente());
+//        model.addAttribute("titulo", "Nuevo Cliente");
+//        return "clientes/formulario";
+//    }
+//
+//    // CREATE - Guardar nuevo cliente (ADMIN)
+//    @PostMapping("/admin/clientes/nuevo")
+//    public String guardarNuevo(@Valid @ModelAttribute("cliente") Cliente cliente,
+//                               BindingResult result,
+//                               Model model,
+//                               RedirectAttributes redirectAttrs) {
+//
+//        if (clienteService.emailYaExiste(cliente.getEmail(), null)) {
+//            result.rejectValue("email", "error.cliente", "Este email ya está registrado");
+//        }
+//
+//        if (result.hasErrors()) {
+//            model.addAttribute("titulo", "Nuevo Cliente");
+//            return "clientes/formulario";
+//        }
+//
+//        clienteService.save(cliente);
+//        redirectAttrs.addFlashAttribute("mensajeExito", "Cliente creado correctamente");
+//        return "redirect:/admin/clientes";
+//    }
 
     // UPDATE - Mostrar formulario edición (ADMIN)
     @GetMapping("/admin/clientes/editar/{id}")
