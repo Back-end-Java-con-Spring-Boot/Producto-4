@@ -23,10 +23,16 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(request -> request
+                        //ADMIN
                         .requestMatchers("/admin/**", "/vehiculos/**", "/sucursales/**", "/alquiler/**", "/clientes/**")
                         .hasRole("ADMIN")
+                        //USER
+                        .requestMatchers("/user/**")
+                        .hasRole("USER")
+                        //TODOS
                         .requestMatchers("/", "/reservar", "/css/**", "/js/**", "/auth/**", "/alquiler/crear/**", "/clientes/nuevo/**")
                         .permitAll()
+                        //OTROS
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
