@@ -1,4 +1,4 @@
-package com.alquilatusvehiculos.alquila_tus_vehiculos.DTO;
+package com.alquilatusvehiculos.alquila_tus_vehiculos.dto;
 
 import lombok.AllArgsConstructor;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.model.RolUsuario;

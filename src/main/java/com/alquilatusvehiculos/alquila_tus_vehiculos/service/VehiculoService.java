@@ -7,6 +7,8 @@ import com.alquilatusvehiculos.alquila_tus_vehiculos.repository.VehiculoReposito
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.alquilatusvehiculos.alquila_tus_vehiculos.dto.VehiculoDTO;
+import java.util.stream.Collectors;
 
 import java.util.List;
 
@@ -53,5 +55,20 @@ public class VehiculoService {
         return vehiculoRepository.findBySucursalId(sucursalId);
     }
 
+    @Transactional
+    public List<VehiculoDTO> obtenerTodosParaApi() {
+        return vehiculoRepository.findAll().stream()
+                .map(v -> new VehiculoDTO(
+                        v.getId(),
+                        v.getNombre(),
+                        v.getMatricula(),
+                        v.getPlazas(),
+                        v.getPrecioDia(),
+                        v.getTipoVehiculo(),
+                        v.getSucursal() != null ? v.getSucursal().getId() : null,
+                        v.getImagenUrl()
+                ))
+                .collect(Collectors.toList());
+    }
 
 }

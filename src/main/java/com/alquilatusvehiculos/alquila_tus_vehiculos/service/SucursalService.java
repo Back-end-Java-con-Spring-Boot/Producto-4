@@ -1,7 +1,9 @@
 package com.alquilatusvehiculos.alquila_tus_vehiculos.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.alquilatusvehiculos.alquila_tus_vehiculos.dto.SucursalDTO;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.repository.AlquilerRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +11,7 @@ import com.alquilatusvehiculos.alquila_tus_vehiculos.model.Sucursal;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.repository.SucursalRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +45,18 @@ public class SucursalService {
     // Buscar una sola
     public Sucursal buscarPorId(Long id) {
         return sucursalRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public List<SucursalDTO> obtenerTodasParaApi() {
+        return sucursalRepository.findAll().stream()
+                .map(s -> new SucursalDTO(
+                        s.getId(),
+                        s.getNombre(),
+                        s.getDireccion(),
+                        s.getTelefono(),
+                        s.getCiudad()
+                ))
+                .collect(Collectors.toList());
     }
 }
