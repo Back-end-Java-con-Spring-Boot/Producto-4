@@ -17,8 +17,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Tag(name = "2. Alquileres Securizados", description = "Operaciones privadas para clientes. Requieren Token JWT.")
-public class SecuredApiController {
+@Tag(name = "Alquileres API", description = "Gestión de alquileres y reservas")
+public class AlquilerApiController {
 
     @Autowired
     private AlquilerService alquilerService;
@@ -46,12 +46,14 @@ public class SecuredApiController {
         return new ResponseEntity<>(nuevoAlquiler, HttpStatus.CREATED);
     }
 
-    /**
-     * ENDPOINT SECURIZADO: Historial de alquileres de un cliente
-     * Método: GET
-     * Ruta: /api/clientes/{id}/alquileres
-     */
+
     @GetMapping("/clientes/{id}/alquileres")
+    @Operation(summary = "Obtener historial de reservas", description = "Devuelve la lista de alquileres de un cliente específico. El sistema bloquea la petición si el ID de la URL no coincide con el del Token.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Historial recuperado exitosamente"),
+            @ApiResponse(responseCode = "401", description = "Token ausente o inválido"),
+            @ApiResponse(responseCode = "403", description = "Acceso denegado (Intento de espiar el historial de otro cliente)")
+    })
     public ResponseEntity<?> obtenerAlquileresCliente(
             @PathVariable Long id, Authentication authentication
     ) {

@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@Tag(name = "1. Autenticación API", description = "Endpoints para iniciar sesión y generar Tokens JWT")
+@Tag(name = "Autenticación API", description = "Endpoints para iniciar sesión y generar Tokens JWT")
 public class AuthApiController {
 
     @Autowired
