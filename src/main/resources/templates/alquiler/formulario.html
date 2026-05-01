@@ -30,9 +30,9 @@
         <input type="hidden" th:field="*{id}">
 
         <!-- CLIENTE -->
-        <div class="mb-3">
+        <div class="mb-3" sec:authorize="hasRole('ADMIN')">
             <label class="form-label">Cliente</label>
-            <select class="form-select" th:field="*{cliente.id}" required>
+            <select class="form-select" th:field="*{cliente.id}">
                 <option value="">Selecciona un cliente</option>
                 <option th:each="c : ${listaClientes}"
                         th:value="${c.id}"
@@ -103,7 +103,7 @@
             <a sec:authorize="hasRole('ADMIN')"
                th:href="@{/admin/alquiler}" class="btn btn-secondary">Cancelar</a>
             <a sec:authorize="hasRole('USER')"
-               th:href="@{/}" class="btn btn-secondary">Cancelar</a>
+               th:href="@{/reservar}" class="btn btn-secondary">Cancelar</a>
         </div>
 
     </form>

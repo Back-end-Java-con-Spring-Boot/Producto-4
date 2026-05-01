@@ -1,8 +1,13 @@
 package com.alquilatusvehiculos.alquila_tus_vehiculos.controller;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import com.alquilatusvehiculos.alquila_tus_vehiculos.model.Usuario;
+import com.alquilatusvehiculos.alquila_tus_vehiculos.repository.UsuarioRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +31,15 @@ public class AlquilerController {
     private final ClienteService clienteService;
     private final VehiculoService vehiculoService;
     private final SucursalService sucursalService;
+    private final UsuarioRepository usuarioRepository;
 
     public AlquilerController(AlquilerService alquilerService, SucursalService sucursalService,
-                              ClienteService clienteService, VehiculoService vehiculoService) {
+                              ClienteService clienteService, VehiculoService vehiculoService, UsuarioRepository usuarioRepository) {
         this.alquilerService  = alquilerService;
         this.clienteService   = clienteService;
         this.vehiculoService  = vehiculoService;
         this.sucursalService  = sucursalService;
+        this.usuarioRepository = usuarioRepository;
     }
 
     // ══════════════════════════════════════════════════════════════
@@ -157,7 +164,6 @@ public class AlquilerController {
             }
         }
         model.addAttribute("alquiler", alquiler);
-        model.addAttribute("listaClientes", clienteService.findAll());
         model.addAttribute("listaVehiculos", vehiculoService.findAll());
         model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
         model.addAttribute("fechaMinima", LocalDateTime.now());
@@ -165,14 +171,21 @@ public class AlquilerController {
     }
 
     @PostMapping("/user/reservar/guardar")
-    public String guardarUser(@ModelAttribute Alquiler alquiler, Model model) {
+    public String guardarUser(@ModelAttribute Alquiler alquiler, Model model, Principal principal) {
         try {
             alquiler.setFechaInicio(
                     LocalDateTime.of(alquiler.getFechaInicioDate(), alquiler.getFechaInicioTime()));
             alquiler.setFechaFin(
                     LocalDateTime.of(alquiler.getFechaFinDate(), alquiler.getFechaFinTime()));
+
+            String usernameLogueado = principal.getName();
+            Usuario usuario = usuarioRepository.findByUsername(usernameLogueado)
+                            .orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
+
+            alquiler.setCliente(usuario.getCliente());
+
             alquilerService.crearAlquiler(alquiler);
-            return "redirect:/admin/alquiler";
+            return "redirect:/user/mis-reservas";
         } catch (RuntimeException e) {
             model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("alquiler", alquiler);
@@ -181,5 +194,22 @@ public class AlquilerController {
             model.addAttribute("listaSucursales", sucursalService.obtenerTodas());
             return "alquiler/formulario";
         }
+    }
+
+    @GetMapping("user/mis-reservas")
+    public String verMisReservas(Model model, Principal principal){
+
+        String usernameLogueado = principal.getName();
+        Usuario usuario = usuarioRepository.findByUsername(usernameLogueado).orElseThrow();
+        Long idClienteLogueado = usuario.getCliente().getId();
+
+        List<Alquiler> misAlquileres = alquilerService.listarTodosAlquileres()
+                .stream()
+                .filter(a -> a.getCliente().getId().equals(idClienteLogueado))
+                .collect(Collectors.toList());
+
+        model.addAttribute("misAlquileres", misAlquileres);
+        return "alquiler/mis-reservas";
+
     }
 }

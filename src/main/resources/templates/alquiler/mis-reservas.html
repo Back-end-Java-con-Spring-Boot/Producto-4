@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout :: head}">
+    <title>Sleipnir - Mis Reservas</title>
+</head>
+
+<body>
+<nav th:replace="~{layout :: header}"></nav>
+
+<main class="container mt-5 pt-5">
+    <h2>Mis Reservas</h2>
+
+    <div th:if="${misAlquileres.isEmpty()}" class="alert alert-info">
+        Aún no tienes ningún alquiler registrado. ¡Anímate a reservar tu primer vehículo!
+    </div>
+
+    <table class="table table-striped mt-4" th:unless="${misAlquileres.isEmpty()}">
+        <thead class="table-dark">
+        <tr>
+            <th>Nº Reserva</th>
+            <th>Sucursal</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Estado</th>
+            <th>Precio Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="alquiler : ${misAlquileres}">
+            <td th:text="${alquiler.id}"></td>
+            <td th:text="${alquiler.sucursal.nombre}"></td>
+            <td th:text="${#temporals.format(alquiler.fechaInicio, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${#temporals.format(alquiler.fechaFin, 'dd/MM/yyyy HH:mm')}"></td>
+            <td>
+                    <span class="badge"
+                          th:classappend="${alquiler.estado.name() == 'ACTIVO' ? 'bg-success' : (alquiler.estado.name() == 'CANCELADO' ? 'bg-danger' : 'bg-secondary')}"
+                          th:text="${alquiler.estado}">
+                    </span>
+            </td>
+            <td th:text="${alquiler.precioTotal + ' €'}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <a th:href="@{/user/reservar}" class="btn btn-primary">Realizar nueva reserva</a>
+    </div>
+
+</main>
+</body>
+</html>

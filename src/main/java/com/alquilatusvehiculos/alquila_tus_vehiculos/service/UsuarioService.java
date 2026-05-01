@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
@@ -36,5 +38,10 @@ public class UsuarioService {
         cliente.setTelefono(dto.getTelefono());
         cliente.setUsuario(usuario);
         clienteRepository.save(cliente);
+
+    }
+
+    public void deleteById(Long id) {
+        usuarioRepository.deleteById(id);
     }
 }

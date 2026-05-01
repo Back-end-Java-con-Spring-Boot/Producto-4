@@ -24,9 +24,7 @@
         <div class="card table-card border-0">
             <div class="card-body p-5">
                 <form method="post" th:object="${cliente}"
-                    th:action="${cliente.id == null}
-                        ? @{/admin/clientes/nuevo}
-                        : @{/admin/clientes/editar/{id}(id=${cliente.id})}">
+                    th:action="@{/admin/clientes/editar/{id}(id=${cliente.id})}">
                     <input type="hidden" th:field="*{id}">
 
                     <div class="mb-3">
