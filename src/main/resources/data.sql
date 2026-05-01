@@ -22,13 +22,13 @@ VALUES (1, 'Quita puntos', '1234ABC',  5, 45.50, 'TERRESTRE', 1, 'https://images
        La contraseña de admin es admin123 y de usuarios user123
         */
 INSERT IGNORE INTO usuarios (id, username, password, rol, activo, fecha_registro)
-VALUES (1, 'administrador', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.jqnmqbe', 'ADMIN', true, NOW()),
-       (2, 'Estebandido', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW()),
-       (3, 'Elenanito', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW()),
-       (4, 'Estelagartija', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW()),
-       (5, 'Armandobronca', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW()),
-       (6, 'Inesplicable', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW()),
-       (7, 'Peregil', '$2a$10$EblZqNptyYvcLm/VwDCVAuIssG/H.McdPqY815FpX1.WqIq4dD31.', 'USER', true, NOW()),
+VALUES (1, 'administrador', '$2a$10$RiFGrtPDoATJwIhKi4n.5uFe2VJYqpHs3hbXCf89eABz/YDbEGw42', 'ADMIN', true, NOW()),
+       (2, 'Estebandido', '$2a$10$mb9fKK5QsqySJJxR554TR.8JJqfM1N125vrEBHgbO3hWulGw0OZl.', 'USER', true, NOW()),
+       (3, 'Elenanito', '$2a$10$mb9fKK5QsqySJJxR554TR.8JJqfM1N125vrEBHgbO3hWulGw0OZl.', 'USER', true, NOW()),
+       (4, 'Estelagartija', '$2a$10$mb9fKK5QsqySJJxR554TR.8JJqfM1N125vrEBHgbO3hWulGw0OZl.', 'USER', true, NOW()),
+       (5, 'Armandobronca', '$2a$10$mb9fKK5QsqySJJxR554TR.8JJqfM1N125vrEBHgbO3hWulGw0OZl.', 'USER', true, NOW()),
+       (6, 'Inesplicable', '$2a$10$mb9fKK5QsqySJJxR554TR.8JJqfM1N125vrEBHgbO3hWulGw0OZl.', 'USER', true, NOW()),
+       (7, 'Peregil', '$2a$10$mb9fKK5QsqySJJxR554TR.8JJqfM1N125vrEBHgbO3hWulGw0OZl.', 'USER', true, NOW()),
        (8, 'Thabata', '$2a$10$e.v2iZb9JLzkuFmPYv507uqe68EOWxDcdy717BrK9CVJ0zFEAM3ae', 'ADMIN', true, NOW());
 
 

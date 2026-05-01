@@ -32,7 +32,9 @@
         <div class="col-lg-5 col-md-12">
           <div class="search-box">
             <h3 class="text-white fw-bold mb-4">Buscador de Vehículos</h3>
-            <form class="row g-3" th:action="@{/alquiler/crear}" method="GET" th:object="${alquiler}">
+            <form class="row g-3" th:action="${#authorization.expression('hasRole(''ADMIN'')')}
+                  ? @{/admin/alquiler/crear}
+                  : @{/user/reservar}" method="GET" th:object="${alquiler}">
 
               <div class="col-12 mb-3">
                 <label class="form-label text-white small fw-bold">Sucursal</label>
