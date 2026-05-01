@@ -3,6 +3,10 @@ package com.alquilatusvehiculos.alquila_tus_vehiculos.controller.rest;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.dto.AlquilerDTO;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.service.AlquilerService;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.service.ClienteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "2. Alquileres Securizados", description = "Operaciones privadas para clientes. Requieren Token JWT.")
 public class SecuredApiController {
 
     @Autowired
@@ -20,12 +25,13 @@ public class SecuredApiController {
     @Autowired
     private ClienteService clienteService;
 
-    /**
-     * ENDPOINT SECURIZADO: Crear un nuevo alquiler
-     * Método: POST
-     * Ruta: /api/alquileres
-     */
     @PostMapping("/alquileres")
+    @Operation(summary = "Crear una nueva reserva", description = "Crea un alquiler. Por seguridad, ignora el clienteId enviado en el JSON y asigna automáticamente la reserva al dueño del Token JWT.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Reserva creada exitosamente"),
+            @ApiResponse(responseCode = "400", description = "Datos inválidos (fechas incorrectas, sin vehículos...)"),
+            @ApiResponse(responseCode = "401", description = "Token ausente o inválido")
+    })
     public ResponseEntity<AlquilerDTO> crearAlquiler(
             @RequestBody AlquilerDTO alquilerDTO, Authentication authentication
     ) {
@@ -41,7 +47,7 @@ public class SecuredApiController {
     }
 
     /**
-     * ENDPOINT 2 SECURIZADO: Historial de alquileres de un cliente
+     * ENDPOINT SECURIZADO: Historial de alquileres de un cliente
      * Método: GET
      * Ruta: /api/clientes/{id}/alquileres
      */
