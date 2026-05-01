@@ -46,4 +46,12 @@ public class ClienteService {
         Optional<Cliente> existente = clienteRepository.findByEmail(email);
         return existente.isPresent() && !existente.get().getId().equals(idActual);
     }
+
+    // ── SEGURIDAD API ──────────────────────────────────────────────
+    public Long obtenerIdClientePorUsername(String username) {
+        Cliente cliente = clienteRepository.findByUsuarioUsername(username)
+                .orElseThrow(() -> new RuntimeException("No se ha encontrado un perfil de Cliente asociado al usuario: " + username));
+
+        return cliente.getId();
+    }
 }

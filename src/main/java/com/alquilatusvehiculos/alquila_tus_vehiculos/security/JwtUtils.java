@@ -12,7 +12,7 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    private final String JWT_SECRET = "Sleipnir_Super_Secret_Key_2026_NoobDevs_Security_Master_Key";
+    private final String JWT_SECRET = "Sleipnir_Super_Secret_Key_2026_NoobDevs_Security_Master_Key_Supermegasegura";
 
     private final int JWT_EXPIRATION_MS = 86400000;
 

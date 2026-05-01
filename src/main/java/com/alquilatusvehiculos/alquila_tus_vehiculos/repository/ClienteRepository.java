@@ -15,4 +15,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     // Buscar por apellidos (útil para el buscador)
     java.util.List<Cliente> findByApellidosContainingIgnoreCase(String apellidos);
+
+    // Busca un Cliente basándose en el 'username' de su entidad 'Usuario' relacionada
+    Optional<Cliente> findByUsuarioUsername(String username);
 }
