@@ -23,4 +23,6 @@ public interface AlquilerRepository extends JpaRepository<Alquiler, Long> {
 
     boolean existsBySucursalId(Long sucursalId);
 
+    List<Alquiler> findByClienteId(Long clienteId);
+
 }
