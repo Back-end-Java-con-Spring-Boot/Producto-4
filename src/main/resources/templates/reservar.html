@@ -89,7 +89,9 @@
                                     <span class="fs-4 fw-bold text-success" th:text="${vehiculo.precioDia}"></span>
                                     <span class="text-muted small">€ / día</span>
                                 </div>
-                                <a th:href="@{/alquiler/crear(vehiculoId=${vehiculo.id})}"
+                                <a th:href="${#authorization.expression('hasRole(''ADMIN'')')}
+                                      ? @{/admin/alquiler/crear(vehiculoId=${vehiculo.id})}
+                                      : @{/user/reservar(vehiculoId=${vehiculo.id})}"
                                    class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">Reservar</a>
                             </div>
                         </div>
