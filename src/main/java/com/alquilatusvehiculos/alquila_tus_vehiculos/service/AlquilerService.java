@@ -1,8 +1,12 @@
 package com.alquilatusvehiculos.alquila_tus_vehiculos.service;
+import com.alquilatusvehiculos.alquila_tus_vehiculos.dto.AlquilerDTO;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.model.Alquiler;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.model.EstadoAlquiler;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.model.Vehiculo;
 import com.alquilatusvehiculos.alquila_tus_vehiculos.repository.AlquilerRepository;
+import com.alquilatusvehiculos.alquila_tus_vehiculos.repository.ClienteRepository;
+import com.alquilatusvehiculos.alquila_tus_vehiculos.repository.SucursalRepository;
+import com.alquilatusvehiculos.alquila_tus_vehiculos.repository.VehiculoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,12 @@ public class AlquilerService {
 
     @Autowired
     private AlquilerRepository alquilerRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private SucursalRepository sucursalRepository;
+    @Autowired
+    private VehiculoRepository vehiculoRepository;
 
     public List<Alquiler> listarTodosAlquileres() {
         return alquilerRepository.findAll();
@@ -65,6 +75,38 @@ public class AlquilerService {
         alquiler.setPrecioTotal(calcularPrecio(alquiler));
         return alquilerRepository.save(alquiler);
     }
+
+    @Transactional
+    public AlquilerDTO crearAlquilerDesdeApi(AlquilerDTO dto) {
+
+        Alquiler nuevoAlquiler = new Alquiler();
+        nuevoAlquiler.setFechaInicio(dto.getFechaInicio());
+        nuevoAlquiler.setFechaFin(dto.getFechaFin());
+        nuevoAlquiler.setEstado(EstadoAlquiler.ACTIVO);
+
+        var cliente = clienteRepository.findById(dto.getClienteId())
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + dto.getClienteId()));
+        nuevoAlquiler.setCliente(cliente);
+
+        var sucursal = sucursalRepository.findById(dto.getSucursalId())
+                .orElseThrow(() -> new RuntimeException("Sucursal no encontrada con ID: " + dto.getSucursalId()));
+        nuevoAlquiler.setSucursal(sucursal);
+
+        List<Vehiculo> vehiculos = vehiculoRepository.findAllById(dto.getVehiculoIds());
+        if (vehiculos.isEmpty()) {
+            throw new RuntimeException("No se encontraron los vehículos indicados");
+        }
+        nuevoAlquiler.setVehiculos(vehiculos);
+
+        Alquiler alquilerGuardado = this.crearAlquiler(nuevoAlquiler);
+
+        dto.setId(alquilerGuardado.getId());
+        dto.setPrecioTotal(alquilerGuardado.getPrecioTotal());
+        dto.setEstado(alquilerGuardado.getEstado());
+
+        return dto;
+    }
+
     @Transactional
     public Alquiler actualizarAlquiler(Long id, Alquiler alquilerActualizado) {
 
@@ -133,6 +175,22 @@ public class AlquilerService {
     public List<Alquiler> filtrarPorCliente(String nombre) {
         List<Alquiler> alquileres = alquilerRepository.findByClienteNombre(nombre);
         return alquileres.isEmpty() ? new ArrayList<>() : alquileres;
+    }
+
+    public List<AlquilerDTO> obtenerAlquileresDeClienteParaApi(Long clienteId) {
+        List<Alquiler> alquileres = alquilerRepository.findByClienteId(clienteId);
+
+        return alquileres.stream().map(alquiler -> {
+            AlquilerDTO dto = new AlquilerDTO();
+            dto.setId(alquiler.getId());
+            dto.setClienteId(alquiler.getCliente().getId());
+            dto.setSucursalId(alquiler.getSucursal().getId());
+            dto.setPrecioTotal(alquiler.getPrecioTotal());
+            dto.setFechaInicio(alquiler.getFechaInicio());
+            dto.setFechaFin(alquiler.getFechaFin());
+            dto.setEstado(alquiler.getEstado());
+            return dto;
+        }).toList();
     }
 
 }
