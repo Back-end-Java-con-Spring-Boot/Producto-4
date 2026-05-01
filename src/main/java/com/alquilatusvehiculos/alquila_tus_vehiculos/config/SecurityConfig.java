@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -34,19 +33,19 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-    // API (JWT)
+    // ==========================================
+    // 1. CONFIGURACIÓN PARA LA API (JWT)
+    // ==========================================
     @Bean
     @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/**", "/error")
+                .securityMatcher("/api/**") // Se activa SOLO para rutas que empiezan con /api/
                 .csrf(csrf -> csrf.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPointJwt))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/vehiculos/**", "/api/sucursales/**").permitAll()
-                        .requestMatchers("/api/admin/**", "/api/clientes/**").hasRole("ADMIN")
-                        .requestMatchers("/error").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -54,27 +53,41 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // WEB (SESSION)
+    // ==========================================
+    // 2. CONFIGURACIÓN WEB (CLON EXACTO DE TU ORIGINAL)
+    // ==========================================
     @Bean
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
+
+        // Tu mensaje original
+        System.out.println("🔥 SECURITY CONFIG ACTIVA - SLEIPNIR 🔥");
+
         http
                 .authorizeHttpRequests(request -> request
-                        // RUTAS PÚBLICAS (HomeController, AuthController, LoginController)
-                        .requestMatchers("/", "/reservar", "/auth/**", "/login", "/css/**", "/js/**").permitAll()
+                        // ORDEN EXACTO 1: Bloque de ADMIN
+                        .requestMatchers("/admin/**", "/vehiculos/**", "/sucursales/**", "/alquiler/**", "/clientes/**")
+                        .hasRole("ADMIN")
 
-                        // RUTAS DE CLIENTE (AlquilerController, ClienteController)
-                        .requestMatchers("/user/**").authenticated()
+                        // ORDEN EXACTO 2: Bloque de PermitAll
+                        .requestMatchers("/", "/reservar", "/css/**", "/js/**", "/auth/**", "/alquiler/crear/**", "/clientes/nuevo/**")
+                        .permitAll()
 
-                        // RUTAS DE ADMINISTRACIÓN (Protección global de gestión)
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-
+                        // ORDEN EXACTO 3: AnyRequest
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/auth/login").permitAll()
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/login")
                         .defaultSuccessUrl("/?loginSuccess=true", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/auth/login?logout")
+                        .permitAll()
                 )
                 .csrf(csrf -> csrf.disable());
+
         return http.build();
     }
 }
