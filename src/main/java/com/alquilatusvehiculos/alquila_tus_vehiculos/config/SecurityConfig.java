@@ -34,13 +34,13 @@ public class SecurityConfig {
     }
 
     // ==========================================
-    // 1. CONFIGURACIÓN PARA LA API (JWT)
+    // CONFIGURACIÓN PARA LA API (JWT)
     // ==========================================
     @Bean
     @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/**") // Se activa SOLO para rutas que empiezan con /api/
+                .securityMatcher("/api/**")
                 .csrf(csrf -> csrf.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPointJwt))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -54,25 +54,19 @@ public class SecurityConfig {
     }
 
     // ==========================================
-    // 2. CONFIGURACIÓN WEB (CLON EXACTO DE TU ORIGINAL)
+    //  CONFIGURACIÓN WEB
     // ==========================================
     @Bean
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
 
-        // Tu mensaje original
         System.out.println("🔥 SECURITY CONFIG ACTIVA - SLEIPNIR 🔥");
 
         http
                 .authorizeHttpRequests(request -> request
-                        // ORDEN EXACTO 1: Bloque de ADMIN
                         .requestMatchers("/admin/**", "/vehiculos/**", "/sucursales/**", "/alquiler/**", "/clientes/**")
                         .hasRole("ADMIN")
-
-                        // ORDEN EXACTO 2: Bloque de PermitAll
                         .requestMatchers("/", "/reservar", "/css/**", "/js/**", "/auth/**", "/alquiler/crear/**", "/clientes/nuevo/**")
                         .permitAll()
-
-                        // ORDEN EXACTO 3: AnyRequest
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
