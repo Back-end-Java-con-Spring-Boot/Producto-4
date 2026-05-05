@@ -29,7 +29,7 @@ VALUES (1, 'administrador', '$2a$10$RiFGrtPDoATJwIhKi4n.5uFe2VJYqpHs3hbXCf89eABz
        (5, 'Armandobronca', '$2a$10$mb9fKK5QsqySJJxR554TR.8JJqfM1N125vrEBHgbO3hWulGw0OZl.', 'USER', true, NOW()),
        (6, 'Inesplicable', '$2a$10$mb9fKK5QsqySJJxR554TR.8JJqfM1N125vrEBHgbO3hWulGw0OZl.', 'USER', true, NOW()),
        (7, 'Peregil', '$2a$10$mb9fKK5QsqySJJxR554TR.8JJqfM1N125vrEBHgbO3hWulGw0OZl.', 'USER', true, NOW()),
-       (8, 'Thabata', '$2a$10$e.v2iZb9JLzkuFmPYv507uqe68EOWxDcdy717BrK9CVJ0zFEAM3ae', 'ADMIN', true, NOW());
+       (8, 'Thabata', '$2a$10$e.v2iZb9JLzkuFmPYv507uqe68EOWxDcdy717BrK9CVJ0zFEAM3ae', 'USER', true, NOW());
 
 
 -- 3. CLIENTES
