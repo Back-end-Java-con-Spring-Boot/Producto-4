@@ -1,6 +1,5 @@
-# Producto-3: Alquila Tus Vehiculos
-Proyecto back-end desarrollado con Spring Boot para la gestión de alquiler de vehículos. En este Producto 3, modificamos nuestra base de datos para la gestión con usuarios
-y utilizamos, configuramos e implementamos Spring Security para poder gestionar los diferentes usuarios.
+# Producto-4: Alquila Tus Vehiculos
+Proyecto back-end desarrollado con Spring Boot para la gestión de alquiler de vehículos. En este Producto 4, una vez finalizada la aplicación para el uso a través de la web, queremos poder servir datos a través de un nuevo servicio APIRestFul atacando a la base de datos que ya disponemos y ofreciendo un nuevo punto de acceso con datos que puedan ser consumidas por terceros.
 ## Requisitos Previos
 * **Docker** y **Docker Compose** instalados en tu sistema.
 * Puerto `8080` libre para la aplicación web.
