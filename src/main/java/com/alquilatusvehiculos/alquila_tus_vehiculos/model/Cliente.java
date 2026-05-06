@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @Entity
 @Table(name = "clientes")
@@ -33,4 +34,7 @@ public class Cliente {
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Alquiler> alquileres;
 }

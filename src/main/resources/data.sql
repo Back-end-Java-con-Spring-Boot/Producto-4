@@ -17,10 +17,7 @@ VALUES (1, 'Quita puntos', '1234ABC',  5, 45.50, 'TERRESTRE', 1, 'https://images
        (7, 'Pez Volador', 'EC-ABC',4, 1200.00, 'AEREO', 3, 'https://images.pexels.com/photos/78786/fighter-jet-jet-lockheed-martin-f-35-lightning-ii-2011-78786.jpeg?_gl=1*1nwtocc*_ga*MTQwOTk3MzY3OS4xNzczMjM5NDA0*_ga_8JE65Q40S6*czE3NzMyMzk0MDQkbzEkZzEkdDE3NzMyMzk5MTYkajI1JGwwJGgw'),
        (8, 'Libelula Mareada', 'EC-XYZ', 6, 2500.00, 'AEREO', 5, 'https://images.pexels.com/photos/1486842/pexels-photo-1486842.jpeg?_gl=1*1cb3fjp*_ga*MTQwOTk3MzY3OS4xNzczMjM5NDA0*_ga_8JE65Q40S6*czE3NzMyMzk0MDQkbzEkZzEkdDE3NzMyMzk4ODYkajU1JGwwJGgw');
 
--- USUARIOS
-       /**
-       La contraseña de admin es admin123 y de usuarios user123
-        */
+-- 3. USUARIOS (Sincronizados ID 1 al 8)
 INSERT IGNORE INTO usuarios (id, username, password, rol, activo, fecha_registro)
 VALUES (1, 'administrador', '$2a$10$RiFGrtPDoATJwIhKi4n.5uFe2VJYqpHs3hbXCf89eABz/YDbEGw42', 'ADMIN', true, NOW()),
        (2, 'Estebandido', '$2a$10$mb9fKK5QsqySJJxR554TR.8JJqfM1N125vrEBHgbO3hWulGw0OZl.', 'USER', true, NOW()),
@@ -31,15 +28,16 @@ VALUES (1, 'administrador', '$2a$10$RiFGrtPDoATJwIhKi4n.5uFe2VJYqpHs3hbXCf89eABz
        (7, 'Peregil', '$2a$10$mb9fKK5QsqySJJxR554TR.8JJqfM1N125vrEBHgbO3hWulGw0OZl.', 'USER', true, NOW()),
        (8, 'Thabata', '$2a$10$e.v2iZb9JLzkuFmPYv507uqe68EOWxDcdy717BrK9CVJ0zFEAM3ae', 'USER', true, NOW());
 
-
--- 3. CLIENTES
- INSERT IGNORE INTO clientes (id, usuario_id, nombre, apellidos, email)
- VALUES (1, 2, 'Esteban', 'Dido Buscado', 'esteban.dido@email.com'),
-        (2, 3, 'Elena', 'Nito Del Bosque', 'elena.nito@email.com'),
-        (3, 4, 'Estela', 'Gartija Veloz', 'estela.gartija@email.com'),
-        (4, 5, 'Armando', 'Bronca Segura', 'armando.lios@email.com'),
-        (5, 6, 'Inés', 'Plícable Ruta', 'ines.plicable@email.com'),
-        (6, 7, 'Pere', 'Gil Fresco', 'pere.gil@email.com');
+-- 4. CLIENTES (Ahora cada Usuario tiene su Cliente con el MISMO ID)
+INSERT IGNORE INTO clientes (id, usuario_id, nombre, apellidos, email)
+VALUES (1, 1, 'Admin', 'Sleipnir', 'admin@sleipnir.com'),
+       (2, 2, 'Esteban', 'Dido Buscado', 'esteban.dido@email.com'),
+       (3, 3, 'Elena', 'Nito Del Bosque', 'elena.nito@email.com'),
+       (4, 4, 'Estela', 'Gartija Veloz', 'estela.gartija@email.com'),
+       (5, 5, 'Armando', 'Bronca Segura', 'armando.lios@email.com'),
+       (6, 6, 'Inés', 'Plícable Ruta', 'ines.plicable@email.com'),
+       (7, 7, 'Pere', 'Gil Fresco', 'pere.gil@email.com'),
+       (8, 8, 'Thabata', 'Profesora', 'thabata@email.com');
 
 -- Asegúrate de que los nombres de las columnas coincidan con lo que vimos en el DESCRIBE
 INSERT IGNORE INTO alquileres (id, id_cliente, id_sucursal, precio_total, fecha_inicio, fecha_fin, estado)
